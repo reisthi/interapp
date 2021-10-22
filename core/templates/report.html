@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+    .material-icons {
+        font-size: 39px;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-4 mx-auto text-center">
+        <i class="material-icons text-success">check_circle</i>
+        <p class="h6 mt-2">Interview is over! Check out the report below.</p>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Question</th>
+                <th scope="col">Difficulty</th>
+                <th scope="col">Evaluation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in report %}
+            <tr>
+                <th scope="row">{{ item.question.pk }}</th>
+                <td>{{ item.question.text }}</td>
+                <td>{{ item.question.get_difficulty_display }}</td>
+                <td>{{ item.get_grade_display }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p class="h5"><strong>Interviewer:</strong> {{ session.username }}</p>
+    </div>
+    <div class="col">
+<!--        <p><strong>Interviewer:</strong></p>-->
+<!--        <p>{{ session.username }}</p>-->
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

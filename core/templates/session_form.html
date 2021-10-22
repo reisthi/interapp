@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="col-md-8r">
+    <h1 class="display-4">Create a profile</h1>
+    <br/>
+    <div class="panel panel-default">
+        <div class="col-md-6 col-sm-11">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                <label for="{{ form.username.id_for_label }}">Please type in a username:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                <p><strong class="text-danger">{{ error|escape }}</strong></p>
+                {% endfor %}
+                {% endif %}
+                <button class="btn btn-primary mt-4">
+                    Next
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

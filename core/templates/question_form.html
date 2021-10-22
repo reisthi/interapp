@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block custom_style %}
+<style>
+    #timer {
+        font-size: 50px;
+        font-weight: 100;
+    }
+    .display-4 {
+        font-weight: 400;
+    }
+    .answer {
+        font-size: 22px;
+        color: darkgray;
+    }
+
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h1 class="display-4 text-center">{{ question }}</h1>
+<div class="row mt-5">
+    <div class="col answer-div text-center mx-auto">
+        <span class="answer font-italic">
+            {{ question.answer|default_if_none:"" }}
+        </span>
+    </div>
+</div>
+<span class="mt-4 text-right">
+    <small>Difficulty Level: <strong>{{ question.get_difficulty_display }}</strong></small>
+</span>
+<hr class="mt-5">
+<div class="row panel panel-default mt-2">
+    <div class="col-3">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {{ form.question }}
+            {{ form.session }}
+            <label for="{{ form.grade.id_for_label }}">Answer evaluation:</label>
+            {{ form.grade }}
+            <button class="btn btn-primary mt-4" type="submit">
+                Next Question
+            </button>
+        </form>
+    </div>
+    <div class="col text-right">
+        <div id="timer-div">
+            <span id="timer" class="text-right">0:00</span>
+        </div>
+        <div class="btn-toolbar mt-4" role="toolbar" style="display: block;"
+             aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-secondary" onclick="countdown('timer', 5, 0)">5</button>
+                <button type="button" class="btn btn-secondary" onclick="countdown('timer', 10, 0)">10</button>
+                <button type="button" class="btn btn-secondary" onclick="countdown('timer', 30, 0)">30</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block custom_js %}
+<script type="text/javascript">
+    function countdown( elementName, minutes, seconds )
+    {
+        $('#timer').remove();
+        var t = $('<span id="timer" class="text-right"></span>"');
+        $('#timer-div').append(t);
+
+        var element, endTime, hours, mins, msLeft, time;
+
+        function twoDigits( n )
+        {
+            return (n <= 9 ? "0" + n : n);
+        }
+
+        function updateTimer()
+        {
+            clearTimeout();
+            msLeft = endTime - (+new Date);
+            if ( msLeft < 1000 ) {
+                element.innerHTML = "0";
+            } else {
+                time = new Date( msLeft );
+                hours = time.getUTCHours();
+                mins = time.getUTCMinutes();
+                element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+                setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+            }
+        }
+
+        element = document.getElementById( elementName );
+        endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+        updateTimer();
+    }
+
+</script>
+{% endblock custom_js %}

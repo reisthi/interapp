@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+    .col-with-border {
+        border: 1px solid #969696;
+        border-radius: 40px;
+        padding: 40;
+    }
+    .col-with-border:hover {
+        background-color: lightgray;
+    }
+    .material-icons {
+        color: dimgrey;
+        font-size: 45px;
+        margin-bottom: 20px;
+    }
+
+</style>
+{{ block.super }}
+{% endblock custom_style %}
+
+{% block content %}
+<div class="col">
+    <h1 class="display-5">Choose a category</h1>
+    <br/>
+</div>
+<div class="col-12 mx-auto">
+    <div class="row mt-5">
+        <div class="col-11 col-md-5 col-lg-5 mx-auto mt-3 col-with-border text-center">
+            <a href="{% url 'core:session' session_pk=session_pk category=categories.PERSONAL.value %}">
+                <i class="material-icons">perm_identity</i>
+                <h5 style="color: dimgrey">Personal questions</h5>
+            </a>
+        </div>
+        <div class="col-11 col-md-5 col-lg-5 mx-auto mt-3 col-with-border text-center">
+            <a href="{% url 'core:session' session_pk=session_pk category=categories.TECHNICAL.value %}">
+                <i class="material-icons">engineering</i>
+                <h5 style="color: dimgrey">Technical questions</h5>
+            </a>
+        </div>
+        <div class="col-11 col-md-5 col-lg-5 mx-auto mt-3 col-with-border text-center">
+            <a href="{% url 'core:session' session_pk=session_pk category=categories.BEHAVIOURAL.value  %}">
+                <i class="material-icons ">psychology</i>
+                <h5 style="color: dimgrey">Behavioural questions</h5>
+            </a>
+        </div>
+        <div class="col-11 col-md-5 col-lg-5 mx-auto mt-3 col-with-border text-center">
+            <a href="{% url 'core:session' session_pk=session_pk category=categories.GENERAL.value  %}">
+                <i class="material-icons">grain</i>
+                <h5 style="color: dimgrey">All</h5>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
